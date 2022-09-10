@@ -2,6 +2,8 @@
 
 All of this is done with Arduino IDE 2.0.0-rc9.4 or later
 
+Much thanks to the hard work of https://github.com/khoih-prog/WebServer_WT32_ETH01/ for making all of this possible
+
 ## How to connect FTDI and upload
 
 Short GPIO 0 to GND any time you are about to upload.
