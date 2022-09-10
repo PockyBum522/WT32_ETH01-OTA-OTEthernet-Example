@@ -2,10 +2,12 @@
 
 #define _ETHERNET_WEBSERVER_LOGLEVEL_       3            // Debug Level from 0 to 4
 
-#include <WebServer_WT32_ETH01.h>
-#include <AsyncTCP.h>
-#include <ESPAsyncWebServer.h>
-#include <AsyncElegantOTA.h>
+#include <WebServer_WT32_ETH01.h>         // https://github.com/khoih-prog/WebServer_WT32_ETH01/
+#include <AsyncTCP.h>                     // https://github.com/me-no-dev/AsyncTCP
+#include <ESPAsyncWebServer.h>            // https://github.com/me-no-dev/ESPAsyncWebServer
+#include <AsyncElegantOTA.h>              // https://github.com/ayushsharma82/AsyncElegantOTA
+
+// Libraries also needed: https://github.com/plapointe6/EspMQTTClient, https://github.com/knolleary/pubsubclient
 
 AsyncWebServer server(80);
 
