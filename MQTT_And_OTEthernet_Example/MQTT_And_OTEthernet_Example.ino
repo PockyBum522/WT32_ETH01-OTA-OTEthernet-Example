@@ -1,5 +1,34 @@
-#define DEBUG_ETHERNET_WEBSERVER_PORT       Serial
+/****************************************************************************************************************************
+  MQTT_And_OTEthernet_Example.ino 
+    - Dead simple MQTT Client for Ethernet shields
+    - Allows for new sketch compiled bin to be uploaded over HTTP using AsyncElegantOTA
 
+  Based on MQTTClient_Auth
+ *****************************************************************************************************************************/
+
+/*
+  Basic MQTT example (without SSL!) with Authentication
+    This sketch demonstrates the basic capabilities of the library.
+    It connects to an MQTT server then:
+    - providing username and password
+    - publishes "hello world" to the topic "outTopic"
+    - subscribes to the topic "inTopic", printing out any messages
+      it receives. NB - it assumes the received payloads are strings not binary
+    It will reconnect to the server if the connection is lost using a blocking
+    reconnect function. See the 'mqtt_reconnect_nonblocking' example for how to
+    achieve the same result without blocking the main loop.
+
+  To use OTA:   
+    - Take note of what IP the board is on, you should be able to see this both in the serial monitor and in the MQTT messages when the board first starts.
+    - In the Arduino IDE, go to Sketch > Export compiled binary
+    - You should now see a build folder next to the MQTT_And_OTEthernet_Example.ino file
+    - Go into build\esp32.esp32.esp32 folder
+    - The file you will be uploading to do an OTA update is MQTT_And_OTEthernet_Example.ino.bin in that folder
+    - Go to http://192.168.X.X/update with a browser (whatever your board IP is that you noted earlier.)
+    - Click "Choose file" and browse to the MQTT_And_OTEthernet_Example.ino.bin that you made earlier when you clicked Export compiled binary
+*/
+
+#define DEBUG_ETHERNET_WEBSERVER_PORT       Serial
 #define _ETHERNET_WEBSERVER_LOGLEVEL_       3            // Debug Level from 0 to 4
 
 #include <WebServer_WT32_ETH01.h>         // https://github.com/khoih-prog/WebServer_WT32_ETH01/
@@ -24,8 +53,8 @@ const char *mqttServer     = "192.168.1.25";                   // Broker address
 const char *mqttBrokerUser = "YOUR_MQTT_USERNAME";             // Username to connect to your MQTT broker
 const char *mqttBrokerPass = "YOUR_MQTT_PASSWORD";             // Password to connect to your MQTT broker
 const char *ID             = "MQTTClient_SSL-Client";          // Name of our device, must be unique
-const char *TOPIC          = "yourtopic/test/esp32";           // Topic to subcribe to
-const char *subTopic       = "MQTT_Sub";                       // Topic to subcribe to
+const char *TOPIC          = "topics/test/esp32";              // Topic to publish to
+const char *subTopic       = "topics/MQTT_Sub";                // Topic to subcribe to
 
 WiFiClient    ethClient;
 
@@ -106,14 +135,10 @@ void reconnect()
       //Serial.print("Subcribed to: ");
       //Serial.println(subTopic);
       
-      // This is a workaround to address https://github.com/OPEnSLab-OSU/SSLClient/issues/9
-      //ethClientSSL.flush();
       // ... and resubscribe
       client.subscribe(subTopic);
       // for loopback testing
       client.subscribe(TOPIC);
-      // This is a workaround to address https://github.com/OPEnSLab-OSU/SSLClient/issues/9
-      //ethClientSSL.flush();
     }
     else
     {
