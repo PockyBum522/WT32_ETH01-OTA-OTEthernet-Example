@@ -18,10 +18,12 @@ AsyncWebServer server(80);
 #include <PubSubClient.h>
 
 // MQTT Settings
-const char* mqttServer = "192.168.1.25";                  // Broker address
-const char *ID        = "MQTTClient_SSL-Client";          // Name of our device, must be unique
-const char *TOPIC     = "yourtopic/test/esp32";             // Topic to subcribe to
-const char *subTopic  = "MQTT_Sub";                       // Topic to subcribe to
+const char *mqttServer     = "192.168.1.25";                   // Broker address
+const char *mqttBrokerUser = "YOUR_MQTT_USERNAME";             // Username to connect to your MQTT broker
+const char *mqttBrokerPass = "YOUR_MQTT_PASSWORD";             // Password to connect to your MQTT broker
+const char *ID             = "MQTTClient_SSL-Client";          // Name of our device, must be unique
+const char *TOPIC          = "yourtopic/test/esp32";           // Topic to subcribe to
+const char *subTopic       = "MQTT_Sub";                       // Topic to subcribe to
 
 WiFiClient    ethClient;
 
@@ -89,7 +91,7 @@ void reconnect()
     Serial.print(mqttServer);
 
     // Attempt to connect
-    if (client.connect("arduino", "YOUR_MQTT_USERNAME_GOES_HERE", "YOUR_MQTT_PASSWORD_GOES_HERE"))
+    if (client.connect("arduino", mqttBrokerUser, mqttBrokerPass))
     {
       Serial.println("...connected");
       
